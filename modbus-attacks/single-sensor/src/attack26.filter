@@ -1,0 +1,11 @@
+# reduce a in purge reading by 10% of sensor range
+
+if (ip.src == '192.168.95.15' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        if (DATA.data + 9 >= 0x20) {
+
+	    DATA.data + 9 -= 0x20;
+
+        }
+    }
+}

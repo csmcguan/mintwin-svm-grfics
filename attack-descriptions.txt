@@ -1,0 +1,173 @@
+GRFICS Spoofing Attacks
+
++=======================================+
+|           Points of Attack            |
++=======================================+
+
+Within the chemical plant simulation, there are 9 sensors and 4 actuators. When implementing attacks, all of the actuators and 7 of the sensors are manipulated. This is because 2 of the sensors are not used in process control. All attacks are performed using a man-in-the-middle (MITM) attack -- i.e., the modbus packets between communicating components are intercepted and manipulated.
+
+Sensors
+    + Feed 1:
+Feed 1 contains a sensor which indicates the current flow from Feed 1 into the reaction tank.
+    + Feed 2:
+Feed 2 contains a sensor which indicates the current flow from Feed 2 into the reaction tank.
+    + Purge:
+Purge contains a sensor which indicates the current outflow from the reaction tank into the Purge.
+    + Product:
+Product contains a sensor which indicates the current outflow from the reaction tank into the Product.
+    + Tank:
+The tank contains two sensors; one indicates the current pressure in the tank and the other indicates the liquid level.
+    + Composition:
+The Composition contains 3 sensors; each one indicates the percentage of each chemical which has been purged. Only the sensor for A in purge is of interest as it is the only one used in process control.
+    + Each sensor is of different units, but the raw values are from 0-65535.
+
+Actuators
+    + Feed 1:
+		The Feed 1 actuator is a valve controlling the main chemical input stream into the plant.
+    + Feed 2:
+		The Feed 2 actuator is a valve controlling a second input stream into the plant.
+    + Purge:
+		The Purge actuator is a valve used to relieve excess pressure from the reaction.
+    + Product:
+		The Product actuator is a valve is used to extract the product from the reaction
+    + For all valves, there is a single value which can be manipulated -- the valve position.
+    + The valve position is a continuous value 0-65535 where 0 closed and 65535 is all the way open.
+
++=======================================+
+|            Types of Attack            |
++=======================================+
+
+Single-Sensor Attacks
+The value of a single sensor reading from any point in the chemical process is intercepted and manipulated. For example, the Tank sends to the PLC that the pressure reading is 55000; the modbus packet is intercepted and the value of the reading changed to 0.
+
+Multi-Sensor Attacks
+The value of multiple sensor readings from any point in the chemical process are intercepted and manipulated. For example, For example, the Tank sends to the PLC that the pressure reading is 55000; the modbus packet is intercepted and the value of the reading changed to 0. Additionally, Feed 1 sends to the PLC that the current flow rate is 0; the modbus packet is intercepted and the value of the reading is changed to 65535.
+
+Single Actuator Attacks
+The value the PLC sends to the actuator is intercepted and manipulated at a single point within the system. For example, the position of a valve is manipulated. Note that only Feed 1, Feed 2, Purge, and Product contain actuators.
+
+Multi-Actuator Attacks
+The value of two or more actuators are intercepted and manipulated. For example, the actuator values of both Feed 1 and Feed 2 are written to 0, closing both of them.
+
+Complex Attacks
+Any combination of both sensors and actuators are manipulated. For example, flow and pressure readings are manipulated, the actuator value of Purge is manipulated, and the actuator and flow reading of Feed 1 are manipulated.
+
++=======================================+
+|         Single-Sensor Attacks         |
++=======================================+
+There are 28 single sensor attacks implemented. There are as follows:
+
+    + Attack 00:	Manipulate Feed 1 flow reading to 0.
+    + Attack 01: 	Manipulate Feed 1 flow reading to 65535.
+    + Attack 02: 	Decrease Feed 1 flow reading by 10% of the sensor range.
+    + Attack 03: 	Increase Feed 1 flow reading by 10% of the sensor range.
+    + Attack 04: 	Manipulate Feed 2 flow reading to 0.
+    + Attack 05: 	Manipulate Feed 2 flow reading to 65535.
+    + Attack 06:	Decrease Feed 2 flow reading by 10% of the sensor range.
+    + Attack 07:	Increase Feed 2 flow reading by 10% of the sensor range.
+    + Attack 08:	Manipulate Purge flow reading to 0.
+    + Attack 09:	Manipulate Purge flow reading to 65536.
+    + Attack 10:	Decrease Purge flow reading by 10% of the sensor range.
+    + Attack 11:	Increase Purge flow reading by 10% of the sensor range.
+    + Attack 12:	Manipulate Product flow reading to 0.
+    + Attack 13:	Manipulate Product flow reading to 65535.
+    + Attack 14:	Decrease Product flow reading by 10% of the sensor range.
+    + Attack 15:	Increase Product flow reading by 10% of the sensor range.
+    + Attack 16:	Manipulate Tank pressure reading to 0.
+    + Attack 17:	Manipulate Tank pressure reading to 65535.
+    + Attack 18:	Decrease Tank pressure reading by 10% of the sensor range.
+    + Attack 19:	Increase Tank pressure reading by 10% of the sensor range.
+    + Attack 20:	Manipulate Tank liquid level reading to 0.
+    + Attack 21:	Manipulate Tank liquid level reading to 65535.
+    + Attack 22:	Decrease Tank liquid level reading by 10% of the sensor range.
+    + Attack 23:	Increase Tank liquid level reading by 10% of the sensor range.
+    + Attack 24:	Manipulate Composition A in purge reading to 0.
+    + Attack 25:	Manipulate Composition A in purge reading to 65535.
+    + Attack 26:	Decrease Composition A in purge reading by 10% of the sensor range.
+    + Attack 27:	Increase Composition A in purge reading by 10% of the sensor range.
+
++=======================================+
+|         Multi-Sensor Attacks          |
++=======================================+
+There are 10 multi-sensor attack implemented. They are as follows:
+
+    + Attack 28:	Manipulate Feed 1 flow reading to 0.
+ 			Manipulate Feed 2 flow reading to 0.
+    + Attack 29:	Manipulate Feed 1 flow reading to 65535.
+ 			Manipulate Feed 2 flow reading to 65535
+    + Attack 30:	Manipulate Feed 1 flow reading to 0.
+			Manipulate Tank pressure reading to 0.
+    + Attack 31:	Manipulate Product flow reading to 65535.
+			Manipulate Tank pressure reading to 0.
+    + Attack 32:	Increase Feed 1 flow reading by 10% of the sensor range.						Increase Tank pressure reading by 10% of the sensor range.
+			Decrease Tank liquid level reading by 10% of the sensor range.
+    + Attack 33:	Increase Feed 1 flow reading by 10% of the sensor range.
+			Manipulate Tank pressure reading to 65535.
+			Manipulate Composition A in purge reading to 0.
+    + Attack 34:	When the Tank pressure/liquid level reading is below 32000, manipulate the
+			reading to 65535. Otherwise manipulate to 0.
+    + Attack 35:	When the Feed 1/Feed 2 reading is below 32000, manipulate the readings to
+			65535. Otherwise manipulate to 0.
+			Manipulate Composition A in purge reading to 0.
+    + Attack 36:	Manipulate Product flow reading to 65535.
+			Manipulate Tank pressure reading to 65535.
+			Manipulate Composition A in purge reading to 0.
+    + Attack 37:	Manipulate Feed 1 flow reading to 0.
+			Manipulate Feed 2 flow reading to 0.
+			Manipulate Tank pressure reading to 0.
+			Manipulate Tank liquid level reading to 0.
+			Manipulate Composition A in purge reading to 0.
+
++=======================================+
+|        Single Actuator Attacks        |
++=======================================+
+
+There are eight attacks to perform on actuators in a single-actuator scenario that are obviously malicious -- writing each valve as either open or closed where a value of 0 is closed and 65535 is all the way open. The attacks are as follows:
+
+    + Attack 38: 	Manipulate Feed 1 actuator to 0.
+    + Attack 39: 	Manipulate Feed 1 actuator to 65535.
+    + Attack 40: 	Manipulate Feed 2 actuator to 0.
+    + Attack 41: 	Manipulate Feed 2 actuator to 65535.
+    + Attack 42: 	Manipulate Purge actuator to 0.
+    + Attack 43: 	Manipulate Purge actuator to 65535.
+    + Attack 44: 	Manipulate Product actuator to 0.
+    + Attack 45: 	Manipulate Product actuator to 65535.
+
++=======================================+
+|        Multi-Actuator Attacks         |
++=======================================+
+
+There are several combination of actuator attacks that can be performed given the 4 valves. Rather than exhausting that list, only 6 are implemented. The goal of these attacks is to manipulate two or more actuators simultaneously. They are as follows:
+
+    + Attack 46: 	Manipulate Feed 1 actuator to 0.
+			Manipulate Feed 2 actuator to 0.
+    + Attack 47: 	Manipulate Feed 1 actuator to 65535.
+			Manipulate Feed 2 actuator to 65535.
+    + Attack 48: 	Manipulate Purge actuator to 0.
+			Manipulate Product actuator to 0.
+    + Attack 49: 	Manipulate Purge actuator to 65535.
+			Manipulate Product actuator to 65535.
+    + Attack 50:	Manipulate Feed 1 actuator to 65535.
+			Manipulate Feed 2 actuator to 65535.
+			Manipulate Product actuator to 0.
+    + Attack 51:	Manipulate Feed 1 actuator to 65535.
+			Manipulate Feed 2 actuator to 65535.
+			Manipulate Purge actuator to 0.
+			Manipulate Product actuator to 0.
+
++=======================================+
+|            Complex Attacks            |
++=======================================+
+
+Complex attacks have the potential to do the most damage to the plant due to the wide range of control that can be gained over the processes. There are again multiple combinations of attacks for this category, but only two are implemented.
+
+    + Attack 52:	Manipulate sensor readings coming from the Tank and Composition to reflect
+			normal operation.
+			Manipulate Feed 1 actuator to 65535.
+			Manipulate Feed 2 actuator to 65535.
+			Manipulate Purge actuator to 0.
+			Manipulate Product Actuator to 0.
+    + Attack 53:	Manipulate Tank pressure reading to 65535.
+			Manipulate Tank liquid level to 0.
+			Manipulate Feed 1 actuator to 65535.
+			Manipulate Feed 2 actuator to 65535.
