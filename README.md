@@ -93,7 +93,6 @@ allow-hotplug enp0s8
 iface enp0s8 inet dhcp
 ```
 * Reboot the VM
-
 #### Install Guest Additions
 * Update the system
 ```
@@ -151,31 +150,36 @@ scadabr ALL=(ALL) NOPASSWD:ALL
 ```
 pip3 install -r requirements.txt
 ```
-
 ## Create Snapshot
 This will create a snapshot of the ChemicalPlant and PLC VM in a state where the chemical process has stabilized.
 ```
 bash create-snapshot.sh
 ```
-
+## Capturing Training Data
+This will capture a full cycle (1000 seconds) of benign data.
+```
+bash capture-training-data.sh
+```
+## Training the Model
+This will train the model using the training data previously captured.
+```
+python3 train.py
+```
 ## Capturing Attack Data
 This will capture attack data for all 54 attacks. Each attack is run for a full cycle (1000 seconds). This will take about 15 hours to complete.
 ```
 bash capture-attack-data.sh
 ```
-
 ## Capture Benign Data
 This will capture 20 cycles (roughly 5.5 hours worth) of benign data to verify that the model does not induce any false positives.
 ```
 bash capture-benign-data.sh
 ```
-
 ## Testing the model
 This will test the model against all the attack and benign datasets.
 ```
 python3 batch.py
 ```
-
 ## Detection Time
 This will collect the detection time for each attack and log it to a file time.csv. Each attack is only run for a full cycle (1000 seconds).
 ```
