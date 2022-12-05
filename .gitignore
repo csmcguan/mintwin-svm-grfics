@@ -20,5 +20,3 @@ tags
 
 # Log files
 *.csv
-
-*/__pycache__/

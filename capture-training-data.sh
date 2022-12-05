@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # handle ctrl+c
-function ctrlc()
+function close()
 {
   VBoxManage controlvm ScadaBR poweroff
   VBoxManage controlvm pfSense poweroff
@@ -10,7 +10,7 @@ function ctrlc()
   exit 1
 }
 
-trap ctrlc INT
+trap close INT
 
 SCADAUSR="scadabr"
 SCADAPASS="scadabr"
