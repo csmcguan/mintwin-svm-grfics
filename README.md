@@ -19,7 +19,7 @@ If you have trouble enabling host-only networks, add the following to /etc/vbox/
 ```
 
 ### 4. Verify Proper Setup
-Navigate to the [simulation](192.168.95.10) in your browser and verify that the chemical plant is running. If so, you're all set. Shutdown the VMs.
+Navigate to the [simulation](http://192.168.95.10) in your browser and verify that the chemical plant is running. If so, you're all set. Shutdown the VMs.
 
 ### 5. Workstation Modifications
 Follow the instructions in the README.md file in the modbus-attacks directory.
