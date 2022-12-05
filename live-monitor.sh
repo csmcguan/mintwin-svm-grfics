@@ -100,14 +100,14 @@ sleep 2
 
 echo "Attack started at time: $ATKSTART"
 
-while [ $(wc -l < time.csv) -ne $((10#$ATKNUM+1)) ] && [ $(($(date +%s)-START)) -lt 1000 ]; do
+while [ $(wc -l < time.csv) -lt $((10#$ATKNUM+1)) ] && [ $(($(date +%s)-START)) -lt 1000 ]; do
   TIME=$(($(date +%s)-START))
   echo "0, $TIME" >> ./util/monitor-true.csv
   sleep 0.1
 done
 
 # not identified
-if [ $(wc -l < time.csv) -ne $((10#$ATKNUM+1)) ]; then
+if [ $(wc -l < time.csv) -lt $((10#$ATKNUM+1)) ]; then
   echo "-1" >> time.csv
 fi
 
