@@ -1,6 +1,7 @@
 #!/bin/bash
 
-close() {
+close()
+{
   VBoxManage controlvm ScadaBR poweroff
   VBoxManage controlvm workstation poweroff
   VBoxManage controlvm pfSense poweroff
