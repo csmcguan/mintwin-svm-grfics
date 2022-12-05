@@ -1,6 +1,7 @@
 #!/bin/bash
 
-close() {
+close()
+{
   DISPLAY=$(ps aux | grep display.py | grep -v grep | awk '{ print $2 }') 
   if [ ! -z $DISPLAY ]; then
     kill $DISPLAY
@@ -105,6 +106,11 @@ while [ $(wc -l < time.csv) -ne $((10#$ATKNUM+1)) ] && [ $(($(date +%s)-START)) 
   sleep 0.1
 done
 
+# not identified
+if [ $(wc -l < time.csv) -ne $((10#$ATKNUM+1)) ]; then
+  echo "-1" >> time.csv
+fi
+
 # kill active guest sessions
 SCADABR=$(ps aux | grep "VBoxManage guestcontrol ScadaBR" | grep -v grep | awk '{ print $2 }') 
 WORKSTN=$(ps aux | grep "VBoxManage guestcontrol workstation" | grep -v grep | awk '{ print $2 }') 
@@ -115,11 +121,7 @@ if [ ! -z $WORKSTN ]; then
   kill $WORKSTN
 fi
 
-VBoxManage controlvm workstation poweroff
-VBoxManage controlvm ScadaBR poweroff
-VBoxManage controlvm pfSense poweroff
-VBoxManage controlvm plc_2 poweroff
-VBoxManage controlvm ChemicalPlant poweroff
+# cleanup
 DISPLAY=$(ps aux | grep display.py | grep -v grep | awk '{ print $2 }') 
 PREDICT=$(ps aux | grep live-predict.py | grep -v grep | awk '{ print $2 }') 
 if [ ! -z $DISPLAY ]; then
@@ -129,3 +131,10 @@ if [ ! -z $PREDICT ]; then
   kill $PREDICT
 fi 
 rm ./util/monitor-true.csv ./util/monitor-pred.csv ./data-capture/log/live.csv 2> /dev/null
+
+# shutdown
+VBoxManage controlvm workstation poweroff
+VBoxManage controlvm ScadaBR poweroff
+VBoxManage controlvm pfSense poweroff
+VBoxManage controlvm plc_2 poweroff
+VBoxManage controlvm ChemicalPlant poweroff
