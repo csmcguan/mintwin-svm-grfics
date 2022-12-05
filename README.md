@@ -28,12 +28,12 @@ Follow the instructions in the README.md file in the modbus-attacks directory.
 Follow the instructions in the README.md file in the data-capture directory.
 
 ### 7. Host Machine Dependencies
-* Install python modules (run inside SpoofingDetection directory)
+Install python modules (run inside SpoofingDetection directory)
 ```
 pip3 install -r requirements.txt
 ```
 ## Create Snapshot
-This will create a snapshot of the ChemicalPlant and PLC VM in a state where the chemical process has stabilized.
+This will create a snapshot of all VMs in a state where the chemical process has stabilized. Each time the machines are booted, the state is restored to this snapshot.
 ```
 bash create-snapshot.sh
 ```
