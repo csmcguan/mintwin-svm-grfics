@@ -25,18 +25,16 @@ echo "+==============================="
 echo "| Starting VMs..."
 echo "+==============================="
 
+# restore state
+VBoxManage snapshot ScadaBR restore initialized
+VBoxManage snapshot pfSense restore initialized
+VBoxManage snapshot ChemicalPlant restore initialized
+VBoxManage snapshot plc_2 restore initialized
+
 # startup vms
 VBoxManage startvm ScadaBR --type headless
 VBoxManage startvm pfSense --type headless
 VBoxManage startvm ChemicalPlant --type headless
-VBoxManage startvm plc_2 --type headless
-
-# restore state
-VBoxManage controlvm ChemicalPlant poweroff
-VBoxManage controlvm plc_2 poweroff
-VBoxManage snapshot ChemicalPlant restore initialized
-VBoxManage startvm ChemicalPlant --type headless
-VBoxManage snapshot plc_2 restore initialized
 VBoxManage startvm plc_2 --type headless
 
 echo "Verifying that ScadaBR VM has booted..."

@@ -5,11 +5,11 @@ close() {
   if [ ! -z $DISPLAY ]; then
     kill $DISPLAY
   fi
-  VBoxManage controlvm workstation acpipowerbutton
-  VBoxManage controlvm ScadaBR acpipowerbutton
-  VBoxManage controlvm pfSense acpipowerbutton
-  VBoxManage controlvm plc_2 acpipowerbutton
-  VBoxManage controlvm ChemicalPlant acpipowerbutton
+  VBoxManage controlvm workstation poweroff
+  VBoxManage controlvm ScadaBR poweroff
+  VBoxManage controlvm pfSense poweroff
+  VBoxManage controlvm plc_2 poweroff
+  VBoxManage controlvm ChemicalPlant poweroff
   rm ./util/monitor-true.csv ./util/monitor-pred.csv ./data-capture/log/live.csv 2> /dev/null
 
   exit 1
@@ -34,8 +34,14 @@ ATKNUM=$1
 
 echo "actual,time" > ./util/monitor-true.csv
 
+# restore state
+VBoxManage snapshot ScadaBR restore initialized
+VBoxManage snapshot workstation restore initialized
+VBoxManage snapshot pfSense restore initialized
 VBoxManage snapshot ChemicalPlant restore initialized
 VBoxManage snapshot plc_2 restore initialized
+
+# start vms
 VBoxManage startvm ScadaBR --type headless
 VBoxManage startvm workstation --type headless
 VBoxManage startvm pfSense --type headless

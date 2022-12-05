@@ -26,6 +26,13 @@ echo "+==============================="
 echo "| Starting VMs..."
 echo "+==============================="
 
+# restore state
+VBoxManage snapshot ScadaBR restore initialized
+VBoxManage snapshot workstation restore initialized
+VBoxManage snapshot pfSense restore initialized
+VBoxManage snapshot ChemicalPlant restore initialized
+VBoxManage snapshot plc_2 restore initialized
+
 # startup vms
 VBoxManage startvm ScadaBR --type headless
 VBoxManage startvm workstation --type headless

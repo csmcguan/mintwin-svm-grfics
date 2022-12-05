@@ -21,12 +21,16 @@ echo "+==============================="
 echo "| Starting VMs..."
 echo "+==============================="
 
+# restore state
+VBoxManage snapshot ScadaBR restore initialized
+VBoxManage snapshot pfSense restore initialized
+VBoxManage snapshot ChemicalPlant restore initialized
+VBoxManage snapshot plc_2 restore initialized
+
 # startup vms
 VBoxManage startvm ScadaBR --type headless
 VBoxManage startvm pfSense --type headless
-VBoxManage snapshot ChemicalPlant restore initialized
 VBoxManage startvm ChemicalPlant --type headless
-VBoxManage snapshot plc_2 restore initialized
 VBoxManage startvm plc_2 --type headless
 
 CHECK_SCADABR_UP="VBoxManage guestcontrol ScadaBR run	\
