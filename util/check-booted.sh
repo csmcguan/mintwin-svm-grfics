@@ -14,33 +14,34 @@ CHECK_WORKSTN_UP="VBoxManage guestcontrol workstation run   \
 --password $WORKSTNPASS \
 -- /bin/echo Done!"
 
-for MACHINE in "$@"; do
-  case $MACHINE in
-    "ScadaBR")
-      echo "Verifying that ScadaBR VM has booted..."
-      while : ; do
-        $CHECK_SCADA_UP 2> /dev/null && break
-        sleep 5
-      done
-      ;;
-    "workstation")
-      echo "Verifying that workstation VM has booted..."
-      while : ; do
-        $CHECK_WORKSTN_UP 2> /dev/null && break
-        sleep 5
-      done
-      ;;
-    *)
-      echo "Verifying that ScadaBR VM has booted..."
-      while : ; do
-        $CHECK_SCADA_UP 2> /dev/null && break
-        sleep 5
-      done
-      echo "Verifying that workstation VM has booted..."
-      while : ; do
-        $CHECK_WORKSTN_UP 2> /dev/null && break
-        sleep 5
-      done
-      ;;
-  esac
-done
+if [ $# -gt 0 ]; then
+  for MACHINE in "$@"; do
+    case $MACHINE in
+      "ScadaBR")
+        echo "Verifying that ScadaBR VM has booted..."
+        while : ; do
+          $CHECK_SCADA_UP 2> /dev/null && break
+          sleep 5
+        done
+        ;;
+      "workstation")
+        echo "Verifying that workstation VM has booted..."
+        while : ; do
+          $CHECK_WORKSTN_UP 2> /dev/null && break
+          sleep 5
+        done
+        ;;
+    esac
+  done
+else
+  echo "Verifying that ScadaBR VM has booted..."
+  while : ; do
+    $CHECK_SCADA_UP 2> /dev/null && break
+    sleep 5
+  done
+  echo "Verifying that workstation VM has booted..."
+  while : ; do
+    $CHECK_WORKSTN_UP 2> /dev/null && break
+    sleep 5
+  done
+fi

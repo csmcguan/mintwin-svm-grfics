@@ -16,9 +16,6 @@ trap close INT
 SCADAUSR="scadabr"
 SCADAPASS="scadabr"
 
-# make sure scadaBR booted
-sh ./util/check-booted.sh scadaBR
-
 echo "+==============================="
 echo "| Starting VMs..."
 echo "+==============================="
@@ -35,11 +32,8 @@ VBoxManage startvm pfSense --type headless
 VBoxManage startvm ChemicalPlant --type headless
 VBoxManage startvm plc_2 --type headless
 
-echo "Verifying that ScadaBR VM has booted..."
-while : ; do
-  $CHECK_SCADABR_UP 2> /dev/null && break
-  sleep 5
-done
+# make sure scadaBR booted
+sh ./util/check-booted.sh scadaBR
 
 echo "+==============================="
 echo "| Beginning Benign Data Capture"
