@@ -17,10 +17,6 @@ SCADAUSR="scadabr"
 SCADAPASS="scadabr"
 WORKSTNUSR="workstation"
 WORKSTNPASS="password"
-CHMUSR="simulation"
-CHMPASS="Fortiphyd"
-PLCUSR="user"
-PLCPASS="password"
 
 echo "+==============================="
 echo "| Starting VMs..."
@@ -40,26 +36,8 @@ VBoxManage startvm pfSense --type headless
 VBoxManage startvm ChemicalPlant --type headless
 VBoxManage startvm plc_2 --type headless
 
-CHECK_SCADABR_UP="VBoxManage guestcontrol ScadaBR run   \
---username $SCADAUSR                    \
---password $SCADAPASS                   \
--- /bin/echo Done!"
-CHECK_WORKSTN_UP="VBoxManage guestcontrol workstation run   \
---username $WORKSTNUSR	\
---password $WORKSTNPASS	\
--- /bin/echo Done!"
-
-echo "Verifying that ScadaBR VM has booted..."
-while : ; do
-  $CHECK_SCADABR_UP 2> /dev/null && break
-  sleep 5
-done
-echo "Verifying that workstation VM has booted..."
-while : ; do
-  $CHECK_WORKSTN_UP 2> /dev/null && break
-  sleep 5
-done
-
+# check that machines have booted
+sh ./util/check-booted.sh
 
 echo "+==============================="
 echo "| Beginning Attacks..."

@@ -18,18 +18,10 @@ close()
 
 trap close INT
 
-SCADAUSR=scadabr
-SCADAPASS=scadabr
-WORKSTNUSR=workstation
-WORKSTNPASS=password
-CHECK_SCADABR_UP="VBoxManage guestcontrol ScadaBR run   \
---username $SCADAUSR                    \
---password $SCADAPASS                   \
--- /bin/echo Done!"
-CHECK_WORKSTN_UP="VBoxManage guestcontrol workstation run   \
---username $WORKSTNUSR  \
---password $WORKSTNPASS \
--- /bin/echo Done!"
+SCADAUSR="scadabr"
+SCADAPASS="scadabr"
+WORKSTNUSR="workstation"
+WORKSTNPASS="password"
 
 ATKNUM=$1
 
@@ -49,16 +41,7 @@ VBoxManage startvm pfSense --type headless
 VBoxManage startvm ChemicalPlant --type headless
 VBoxManage startvm plc_2 --type headless
 
-echo "Verifying that ScadaBR VM has booted..."
-while : ; do
-  $CHECK_SCADABR_UP 2> /dev/null && break
-  sleep 5
-done
-echo "Verifying that workstation VM has booted..."
-while : ; do
-  $CHECK_WORKSTN_UP 2> /dev/null && break
-  sleep 5
-done
+sh ./util/check-booted.sh
 
 # capture data
 touch ./data-capture/log/live.csv 
@@ -109,16 +92,6 @@ done
 # not identified
 if [ $(wc -l < time.csv) -lt $((10#$ATKNUM+1)) ]; then
   echo "-1" >> time.csv
-fi
-
-# kill active guest sessions
-SCADABR=$(ps aux | grep "VBoxManage guestcontrol ScadaBR" | grep -v grep | awk '{ print $2 }') 
-WORKSTN=$(ps aux | grep "VBoxManage guestcontrol workstation" | grep -v grep | awk '{ print $2 }') 
-if [ ! -z $SCADABR ]; then
-  kill $SCADABR
-fi
-if [ ! -z $WORKSTN ]; then
-  kill $WORKSTN
 fi
 
 # cleanup

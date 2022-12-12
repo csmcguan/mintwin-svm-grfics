@@ -15,11 +15,9 @@ trap close INT
 
 SCADAUSR="scadabr"
 SCADAPASS="scadabr"
-CHECK_SCADABR_UP="VBoxManage guestcontrol ScadaBR run   \
---username $SCADAUSR                    \
---password $SCADAPASS                   \
--- /bin/echo Done!"
 
+# make sure scadaBR booted
+sh ./util/check-booted.sh scadaBR
 
 echo "+==============================="
 echo "| Starting VMs..."
