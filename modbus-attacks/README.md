@@ -14,7 +14,7 @@ sudo systemctl set-default multi-user.target
 * Change Promiscuous Mode to "Allow All"
 * Save changes and boot the VM
 ## Install Guest Additions
-* In the menu bar, navigate to Devices -> Insert Guest Additions CD image 
+* In the menu bar, navigate to Devices > Insert Guest Additions CD image 
 * Mount and install Guest Additions
 ```
 sudo mkdir /mnt/cdrom

@@ -22,7 +22,7 @@ sudo apt update && sudo apt clean && sudo apt full-upgrade -y
 ```
 sudo apt install -y make gcc linux-headers-$(uname -r)
 ```
-* In the menu bar, navigate to Devices > Shared Folders > Shared Folder Settings
+* In the menu bar, navigate to Devices > Insert Guest Additions CD image
 * Mount and install Guest Additions
 ```
 sudo mkdir /mnt/cdrom
