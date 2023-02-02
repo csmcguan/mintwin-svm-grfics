@@ -38,6 +38,7 @@ VBoxManage startvm plc_2 --type headless
 
 # check that machines have booted
 sh ./util/check-booted.sh
+sleep 10
 
 echo "+==============================="
 echo "| Beginning Attacks..."
