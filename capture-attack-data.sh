@@ -57,6 +57,7 @@ for ATKNUM in $(seq -f "%02g" 0 53); do
 
   # check that machines have booted
   sh ./util/check-booted.sh
+  sleep 10
 
   # launch attack
   (VBoxManage guestcontrol workstation run	\
