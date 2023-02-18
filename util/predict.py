@@ -7,7 +7,7 @@ def init_win(data, size):
     return data[0:size - 1]
 
 def predict(file):
-    WIN_SIZE = 200
+    WIN_SIZE = 150
 
     with open(file, "r") as fp:
         data = list(csv.reader(fp))

@@ -7,7 +7,7 @@ import os
 import time
 
 def predict(log):
-    head, tail = 0, 200
+    head, tail = 0, 150
     WIN_SIZE = tail - head
     identified = False
 
