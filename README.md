@@ -53,7 +53,7 @@ This will capture attack data for all 54 attacks. Each attack is run for a full 
 bash capture-attack-data.sh
 ```
 ## Capture Benign Data
-This will capture 20 cycles (roughly 5.5 hours worth) of benign data to verify that the model does not induce any false positives.
+This will capture 50 cycles (roughly 14 hours worth) of benign data to verify that the model does not induce any false positives.
 ```
 bash capture-benign-data.sh
 ```

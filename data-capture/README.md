@@ -63,9 +63,3 @@ scadabr ALL=(ALL) NOPASSWD:ALL
 ```
 * Power off VM
 * Disable Bridge Adapter
-
-## 7. Host Machine Dependencies
-* Install python modules (run inside SpoofingDetection directory)
-```
-pip3 install -r requirements.txt
-```
